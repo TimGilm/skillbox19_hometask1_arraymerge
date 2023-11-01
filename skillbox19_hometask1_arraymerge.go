@@ -8,17 +8,36 @@ package main
 
 import "fmt"
 
-var arrayOne = [4]int{1, 2, 3, 4}
-var arrayTwo = [5]int{5, 6, 7, 8, 9}
+var arrayOne = [4]int{1, 3, 6, 9}
+var arrayTwo = [5]int{2, 4, 5, 7, 8}
 var arrayUnited [9]int
 
-func main() {
-	for i := 0; i < len(arrayUnited); i++ {
-		if i < len(arrayOne) {
-			arrayUnited[i] = arrayOne[i]
+func arrayMerge([4]int, [5]int) [9]int {
+	n := 0
+	for i := 0; i < len(arrayOne); i++ {
+		if arrayOne[i] < arrayTwo[i] {
+			arrayUnited[n] = arrayOne[i]
+			n += 1
+			arrayUnited[n] = arrayTwo[i]
+			n += 1
 		} else {
-			arrayUnited[i] = arrayTwo[i-len(arrayOne)]
+			arrayUnited[n] = arrayTwo[i]
+			n += 1
+			arrayUnited[n] = arrayOne[i]
+			n += 1
 		}
 	}
+	m := len(arrayTwo) - 1
+	arrayUnited[n] = arrayTwo[m]
+	if arrayUnited[n] < arrayUnited[n-1] {
+		arrayUnited[n], arrayUnited[n-1] = arrayUnited[n-1], arrayUnited[n]
+	}
+	return arrayUnited
+}
+
+func main() {
+
+	arrayMerge(arrayOne, arrayTwo)
 	fmt.Print(arrayUnited)
+
 }
